@@ -1,0 +1,42 @@
+N = 10000
+from queue import Queue
+import threading
+import time
+q = Queue()
+results = []
+mutex = threading.Lock()
+class Element:
+    def __init__(self, value):
+        self.value = value
+        self.count = 0
+        self.newValue = value
+def Collatz(node):
+    if node.newValue % 2 == 0:
+        node.newValue = node.newValue / 2
+    else:
+        node.newValue = 3 * node.newValue + 1
+    node.count += 1
+def Cycle():
+    while True:
+        print("iter")
+        if (len(results) == N or len(results) == N - 1) and q.qsize() == 0:
+            break
+        element = q.get()
+        if element.newValue == 1:
+            mutex.acquire()
+            results.append(element)
+            mutex.release()
+        else:
+            Collatz(element)
+            q.put(element)
+for i in range(1, N + 1):
+    q.put(item = Element(i))
+threads = []
+for i in range(10):
+    threads.append(threading.Thread(target=Cycle, args=()))
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+print(len(results))
+
