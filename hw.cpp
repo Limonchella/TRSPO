@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
     else {
         for (int i = 1; i < proccessCount; i++) {
             MPI_Recv(response, 2, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            // cout << "process " << i <<"\n"<< (int)response[2] / 2 <<" points" << "\npi: " << response[1] << "\ntime (seconds): " << response[0]  << "\n";
+           
             cout << "Points: " << i * floor( pointsCount / (proccessCount-1)) << "\t| Pi = " << response[1] << "\t| Time: " << response[0] << "\n";
         }
     }
